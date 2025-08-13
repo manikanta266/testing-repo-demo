@@ -45,4 +45,4 @@ jobs:
       name: production
     steps:
       - name: Deployment after approval
-        run: echo "Deployment approved and running...."
+        run: echo "Deployment approved and running....."
