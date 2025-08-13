@@ -21,8 +21,8 @@ jobs:
         with:
           server_address: smtp.gmail.com  # Correct input parameter
           server_port: 587  # Correct input parameter
-          username: ${{ secrets.GMAIL_USERNAME }}  # GitHub secret for your Gmail username
-          password: ${{ secrets.GMAIL_PASSWORD }}  # GitHub secret for your Gmail app password
+          username: eshwar.bashabathini88@gmail.com  # GitHub secret for your Gmail username
+          password: rqob tobv xdeq pscr  # GitHub secret for your Gmail app password
           from: github-actions@example.com
           to: manikanta@middlewaretalents.com
           subject: 'Action needed: Approve deployment'
@@ -46,3 +46,4 @@ jobs:
     steps:
       - name: Deployment after approval
         run: echo "Deployment approved and running..."
+
