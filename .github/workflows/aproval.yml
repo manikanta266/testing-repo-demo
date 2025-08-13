@@ -16,21 +16,20 @@ jobs:
       - name: Say Hello
         run: echo "Hello, world!"
 
-      - name: Send approval request email
+      - name: Send approval request email for build
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: 'Action needed: Approve deployment'
+          subject: 'Action needed: Approve Build'
           to: manikanta@middlewaretalents.com
           from: github-actions@example.com
           body: |
             Hello Manikanta,
 
-            Please approve the deployment by clicking the link below and approving 
-            the deployment in the 'production' environment on GitHub Actions:
+            Please approve the build by clicking the link below:
 
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
@@ -49,5 +48,14 @@ jobs:
         - manikanta@middlewaretalents.com  # Existing reviewer
         - yaswanth@middlewaretalents.com  # Added new reviewer
     steps:
+      - name: Wait for deployment approval
+        uses: peter-evans/approve-pull-request-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          reviewers: |
+            manikanta@middlewaretalents.com
+            yaswanth@middlewaretalents.com
+          message: "Please approve the deployment."
+
       - name: Deployment after approval
         run: echo "Deployment approved and running....."
