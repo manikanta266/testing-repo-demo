@@ -2,8 +2,8 @@ name: Approval
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [main]  # Triggers when code is pushed to the main branch
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   build:
@@ -11,11 +11,14 @@ jobs:
     outputs:
       run_id: ${{ github.run_id }}
     steps:
+      # Checkout the code
       - uses: actions/checkout@v3
 
+      # Step 1: Say Hello (Example step for illustration)
       - name: Say Hello
         run: echo "Hello, world!"
 
+      # Step 2: Send approval request email for the build step
       - name: Send approval request email for build
         uses: dawidd6/action-send-mail@v3
         with:
@@ -38,16 +41,17 @@ jobs:
             Thanks!
 
   deploy:
-    needs: build
+    needs: build  # This job depends on the successful completion of the 'build' job
     runs-on: ubuntu-latest
     environment:
       name: production
       url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       deployment_url: https://github.com/${{ github.repository }}/deployments/${{ github.run_id }}
-      reviewers: 
-        - manikanta@middlewaretalents.com  # Existing reviewer
-        - yaswanth@middlewaretalents.com  # Added new reviewer
+      reviewers:
+        - manikanta@middlewaretalents.com  # Reviewer 1
+        - yaswanth@middlewaretalents.com  # Reviewer 2
     steps:
+      # Step 1: Wait for deployment approval from specified reviewers
       - name: Wait for deployment approval
         uses: peter-evans/approve-pull-request-action@v2
         with:
@@ -57,5 +61,29 @@ jobs:
             yaswanth@middlewaretalents.com
           message: "Please approve the deployment."
 
+      # Step 2: Validate pre-deployment conditions
+      - name: Step 1 - Validate pre-deployment conditions
+        run: |
+          echo "Validating pre-deployment conditions..."
+          # Add validation checks, such as checking environment variables, configurations, etc.
+          # Example: checking if a required environment variable is set
+          if [ -z "${{ secrets.DEPLOYMENT_KEY }}" ]; then
+            echo "ERROR: DEPLOYMENT_KEY is not set!"
+            exit 1
+          fi
+
+      # Step 3: Prepare deployment environment
+      - name: Step 2 - Prepare deployment environment
+        run: |
+          echo "Preparing the deployment environment..."
+          # Example: Pull the latest build artifacts or configuration
+          # (This is just an example and can be customized as per your needs)
+          echo "Preparing the environment..."
+
+      # Step 4: Perform the deployment after approval
       - name: Deployment after approval
-        run: echo "Deployment approved and running....."
+        run: |
+          echo "Deployment approved and running....."
+          # Perform your deployment steps here, such as copying files, running deployment scripts, etc.
+          # Example: 
+          echo "Deploying the application to production..."
