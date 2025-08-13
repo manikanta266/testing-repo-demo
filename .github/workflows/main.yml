@@ -19,15 +19,15 @@ jobs:
       - name: Send approval request email
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: ${{ secrets.SMTP_SERVER }}
-          server_port: ${{ secrets.SMTP_PORT }}
-          username: ${{ secrets.SMTP_USERNAME }}
-          password: ${{ secrets.SMTP_PASSWORD }}
-          subject: 'Action needed: Approve deployment'
-          to: manikanta@middlewaretalents.com
+          smtp-server: smtp.gmail.com  # Correct Gmail SMTP server
+          smtp-port: 587  # Use 587 for TLS or 465 for SSL
+          smtp-username: ${{ secrets.GMAIL_USERNAME }}  # GitHub Secret for your Gmail email
+          smtp-password: ${{ secrets.GMAIL_PASSWORD }}  # GitHub Secret for your Gmail app-specific password
           from: github-actions@example.com
+          to: manikanta@middlewaretalents.com
+          subject: 'Action needed: Approve deployment'
           body: |
-            Hello Yaswanth,
+            Hello Manikanta,
 
             Please approve the deployment by clicking the link below and approving 
             the deployment in the 'production' environment on GitHub Actions:
