@@ -43,6 +43,11 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
+      url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      deployment_url: https://github.com/${{ github.repository }}/deployments/${{ github.run_id }}
+      reviewers: 
+        - manikanta@middlewaretalents.com  # Existing reviewer
+        - yaswanth@middlewaretalents.com  # Added new reviewer
     steps:
       - name: Deployment after approval
         run: echo "Deployment approved and running....."
